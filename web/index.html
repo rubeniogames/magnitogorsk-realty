@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f4">
+  <meta name="description" content="Недвижимость Магнитогорска и окрестностей. Карта, дома, участки и квартиры. Демонстрационный прототип.">
+  <title>Рядом — недвижимость Магнитогорска</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/leaflet.css">
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+  <script src="/vendor/leaflet.js" defer></script>
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8"/></symbol>
+    <symbol id="i-flat" viewBox="0 0 24 24"><path d="M5 21V3h14v18M3 21h18M9 7h1m4 0h1M9 11h1m4 0h1M10 21v-5h4v5"/></symbol>
+    <symbol id="i-land" viewBox="0 0 24 24"><path d="m3 17 8-5 10 5-8 5-10-5ZM7 14V5m0 0 8 3-8 3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20 5c-3-3-7-1-8 1-1-2-5-4-8-1-4 4 0 9 8 15 8-6 12-11 8-15Z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+  </defs></svg>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Рядом — главная"><span class="brand-mark"><svg><use href="#i-house"/></svg></span><span>рядом<span class="brand-caption">НЕДВИЖИМОСТЬ</span></span></a>
+    <span class="header-location"><svg><use href="#i-pin"/></svg> Магнитогорск и окрестности</span>
+    <div class="header-actions"><button class="icon-button desktop-favorite" id="header-favorites" aria-label="Избранное"><svg><use href="#i-heart"/></svg></button><button class="profile-button" data-profile><svg><use href="#i-user"/></svg><span>Войти</span></button><button class="primary header-add" data-add><svg><use href="#i-plus"/></svg> Разместить</button></div>
+  </header>
+  <main class="container">
+    <section class="map-section" aria-label="Карта недвижимости">
+      <div class="map-heading"><div><span class="eyebrow">МАГНИТОГОРСК И ОКРЕСТНОСТИ</span><h1>Найдите своё место</h1></div><button id="toggle-map" class="quiet-button" aria-expanded="true" aria-controls="map-shell"><svg><use href="#i-map"/></svg><span>Скрыть карту</span><svg class="chevron"><use href="#i-chevron"/></svg></button></div>
+      <div class="map-shell" id="map-shell"><div id="map" role="region" aria-label="Карта района Магнитогорска с демонстрационными объектами"></div><span class="map-pill"><span class="live-dot"></span><span id="map-count">Объекты на карте</span></span><button class="map-reset" id="map-reset" aria-label="Вернуть обзор района"><svg><use href="#i-pin"/></svg> Весь район</button><div class="map-fallback" id="map-fallback" hidden>Не удалось загрузить карту. Поиск и список объектов доступны ниже.</div></div>
+    </section>
+    <section class="search-section" aria-labelledby="search-title">
+      <div class="search-header"><h2 id="search-title">Что вы ищете?</h2><div class="deal-tabs" role="group" aria-label="Тип сделки"><button type="button" class="selected" data-deal="sale" aria-pressed="true">Купить</button><button type="button" data-deal="rent" aria-pressed="false">Снять</button></div></div>
+      <form id="search-form">
+        <div class="type-options" role="group" aria-label="Тип недвижимости"><button type="button" data-type="all" class="selected" aria-pressed="true"><svg><use href="#i-grid"/></svg> Всё</button><button type="button" data-type="house" aria-pressed="false"><svg><use href="#i-house"/></svg> Дом</button><button type="button" data-type="land" aria-pressed="false"><svg><use href="#i-land"/></svg> Участок</button><button type="button" data-type="apartment" aria-pressed="false"><svg><use href="#i-flat"/></svg> Квартира</button></div>
+        <div class="filter-grid">
+          <label class="field settlement-field"><span>Населённый пункт</span><span class="input-with-icon"><svg><use href="#i-pin"/></svg><input id="settlement" name="settlement" list="settlements" placeholder="Любой в этом районе" autocomplete="off"><datalist id="settlements"></datalist></span></label>
+          <fieldset class="field price-field"><legend id="price-label">Стоимость, ₽</legend><div class="range-input"><input name="priceMin" type="number" min="0" step="any" placeholder="От" aria-label="Минимальная стоимость"><span>—</span><input name="priceMax" type="number" min="0" step="any" placeholder="До" aria-label="Максимальная стоимость"></div></fieldset>
+          <button class="primary search-submit" type="submit"><svg><use href="#i-search"/></svg><span id="search-button-label">Показать объекты</span></button>
+        </div>
+        <div class="extra-filters" id="extra-filters" hidden>
+          <fieldset class="field"><legend id="area-label">Площадь, м²</legend><div class="range-input"><input name="areaMin" type="number" min="0" step="any" placeholder="От" aria-label="Минимальная площадь"><span>—</span><input name="areaMax" type="number" min="0" step="any" placeholder="До" aria-label="Максимальная площадь"></div></fieldset>
+          <label class="field" id="rooms-field" hidden><span>Комнат</span><select name="rooms"><option value="">Любое количество</option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4+">4 и больше</option></select></label>
+          <label class="field" id="land-field" hidden><span>Участок, сот.</span><input name="landMin" type="number" min="0" step="any" placeholder="Площадь от"></label>
+          <label class="field" id="land-use-field" hidden><span>Назначение земли</span><select name="landUse"><option value="">Любое назначение</option value="izhs">ИЖС</option><option value="snt">Садоводство</option><option value="lph">ЛПХ</option></select></label>
+        </div>
+        <div class="filter-bottom"><p id="filter-hint">Выберите тип недвижимости, чтобы уточнить параметры.</p><button type="button" class="text-button" id="reset-filters">Сбросить</button></div>
+        <p class="form-error" id="filter-error" role="alert" hidden></p>
+      </form>
+    </section>
+    <section class="results-section" aria-labelledby="results-title">
+      <div class="results-header"><div><h2 id="results-title">Предложения рядом <span id="results-count"></span></h2><p id="results-subtitle">Дома, участки и квартиры в одном месте</p></div><label class="sort"><span class="sr-only">Сортировка</span><select id="sort"><option value="new">Сначала новые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option></select></label></div>
+      <div class="prototype-note"><span>ПРОТОТИП</span> Объявления и фотографии приведены для примера.</div>
+      <div class="cards" id="cards" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state" hidden><svg><use href="#i-search"/></svg><h3>Пока ничего не нашлось</h3><p>Попробуйте другой населённый пункт или расширьте параметры поиска.</p><button class="secondary" id="empty-reset">Сбросить фильтры</button></div>
+    </section>
+    <aside class="listing-invite"><div class="invite-icon"><svg><use href="#i-house"/></svg></div><div><h2>У вашего дома есть будущий хозяин</h2><p>Объявления от собственников и специалистов — рядом с вами.</p></div><button class="secondary" data-add>Разместить объявление <svg><use href="#i-arrow"/></svg></button></aside>
+    <footer><span>рядом · Магнитогорск</span><span>Первая версия · обсуждаем общую структуру</span></footer>
+  </main>
+  <nav class="mobile-nav" aria-label="Основная навигация"><button id="nav-catalog" class="active" aria-current="page"><svg><use href="#i-search"/></svg>Каталог</button><button data-add><span class="nav-add"><svg><use href="#i-plus"/></svg></span>Разместить</button><button id="nav-favorites"><svg><use href="#i-heart"/></svg>Избранное</button><button data-profile><svg><use href="#i-user"/></svg>Профиль</button></nav>
+  <dialog id="account-dialog" class="account-dialog"><button class="dialog-close icon-button" data-close aria-label="Закрыть"><svg><use href="#i-close"/></svg></button><div class="dialog-symbol"><svg><use href="#i-user"/></svg></div><span class="eyebrow">ЛИЧНЫЙ ПРОФИЛЬ</span><h2>Смотреть можно сразу.<br>Размещать — с профилем.</h2><p>После регистрации здесь появятся ваши объявления и управление публикациями.</p><div class="stage-note"><strong>Сейчас знакомимся с общим экраном</strong><p>Регистрацию и размещение подключим следующим этапом. Реальные объявления пока не принимаются.</p></div><button class="primary full-width" data-close>Вернуться к просмотру</button></dialog>
+  <dialog id="detail-dialog" class="detail-dialog"><button class="dialog-close icon-button" data-close aria-label="Закрыть"><svg><use href="#i-close"/></svg></button><div id="detail-content"></div></dialog>
+  <div id="toast" role="status" hidden></div>
+  <noscript><p class="noscript">Для карты и поиска включите JavaScript в браузере.</p></noscript>
+</body>
+</html>

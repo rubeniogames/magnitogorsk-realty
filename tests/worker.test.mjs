@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import worker from '../worker/index.js';
+const env={WEBHOOK_SECRET:'test-webhook-secret',APP_URL:'https://example.test'};
+function request(body,secret=env.WEBHOOK_SECRET){return new Request('https://example.test/telegram/webhook',{method:'POST',headers:{'Content-Type':'application/json','X-Telegram-Bot-Api-Secret-Token':secret},body:JSON.stringify(body)});}
+test('prototype health is explicit and publication is blocked',async()=>{const health=await(await worker.fetch(new Request('https://example.test/api/health'))).json();assert.equal(health.registration,false);assert.equal((await worker.fetch(new Request('https://example.test/api/listings',{method:'POST'}))).status,401);assert.equal((await worker.fetch(new Request('https://example.test/api/register',{method:'POST'}))).status,503);});
+test('webhook rejects wrong or unconfigured secret',async()=>{assert.equal((await worker.fetch(request({},'wrong'),env)).status,401);assert.equal((await worker.fetch(request({}),{})).status,401);});
+test('private start produces a Mini App button',async()=>{const data=await(await worker.fetch(request({message:{text:'/start',chat:{type:'private',id:123}}}),env)).json();assert.equal(data.method,'sendMessage');assert.equal(data.chat_id,123);assert.equal(data.reply_markup.inline_keyboard[0][0].web_app.url,env.APP_URL);});
+test('groups and unrelated messages do not trigger a reply',async()=>{for(const message of [{text:'/start',chat:{type:'group',id:123}},{text:'hello',chat:{type:'private',id:123}}])assert.deepEqual(await(await worker.fetch(request({message}),env)).json(),{ok:true});});
+test('invalid JSON and oversized requests are rejected',async()=>{const invalid=new Request('https://example.test/telegram/webhook',{method:'POST',headers:{'X-Telegram-Bot-Api-Secret-Token':env.WEBHOOK_SECRET},body:'not JSON'});assert.equal((await worker.fetch(invalid,env)).status,400);assert.equal((await worker.fetch(request({text:'x'.repeat(33000)}),env)).status,413);});
