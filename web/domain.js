@@ -1,4 +1,4 @@
-// All entries are fictional examples. Coordinates are approximate, not addresses.
+// The public catalog starts empty; real listings will be connected separately.
 export const REGION = Object.freeze({
   center: [53.458342, 59.350090],
   bounds: [[52.35, 56.65], [54.6, 62.05]],
@@ -6,14 +6,7 @@ export const REGION = Object.freeze({
   maxZoom: 18,
 });
 
-export const LISTINGS = [
-  {id:'demo-1',type:'house',deal:'sale',title:'Светлый дом с большой террасой',settlement:'Красная Башкирия',price:7850000,area:132,land:8,rooms:4,lat:53.467,lng:58.887,image:'house',tag:'Терраса и свой сад',date:6},
-  {id:'demo-2',type:'apartment',deal:'sale',title:'Двухкомнатная с просторной кухней',settlement:'Магнитогорск',price:6450000,area:64,rooms:2,floor:5,floors:10,lat:53.395,lng:58.974,image:'apartment',tag:'Светлая планировка',date:5},
-  {id:'demo-3',type:'land',deal:'sale',title:'Участок для дома за городом',settlement:'Агаповка',price:1650000,area:10,landUse:'izhs',lat:53.298,lng:59.137,image:'land',tag:'ИЖС',date:4},
-  {id:'demo-4',type:'house',deal:'sale',title:'Дом для спокойной загородной жизни',settlement:'Ташбулатово',price:9200000,area:148,land:12,rooms:4,lat:53.587,lng:58.549,image:'house',tag:'Рядом с природой',date:3},
-  {id:'demo-5',type:'apartment',deal:'rent',title:'Уютная квартира на длительный срок',settlement:'Магнитогорск',price:32000,area:42,rooms:1,floor:3,floors:9,lat:53.421,lng:58.999,image:'apartment',tag:'Длительная аренда',date:2},
-  {id:'demo-6',type:'land',deal:'sale',title:'Земля в окружении гор',settlement:'Аскарово',price:2100000,area:15,landUse:'izhs',lat:53.337,lng:58.512,image:'land',tag:'ИЖС',date:1},
-];
+export const LISTINGS = [];
 
 export function numberOrNull(value) {
   const cleaned = String(value ?? '').replace(/\s/g,'').replace(',','.');

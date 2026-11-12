@@ -37,7 +37,7 @@
   <main class="container">
     <section class="map-section" aria-label="Карта недвижимости">
       <div class="map-heading"><div><span class="eyebrow">МАГНИТОГОРСК И ОКРЕСТНОСТИ</span><h1>Найдите своё место</h1></div><button id="toggle-map" class="quiet-button" aria-expanded="true" aria-controls="map-shell"><svg><use href="#i-map"/></svg><span>Скрыть карту</span><svg class="chevron"><use href="#i-chevron"/></svg></button></div>
-      <div class="map-shell" id="map-shell"><div id="map" role="region" aria-label="Карта района Магнитогорска с демонстрационными объектами"></div><span class="map-pill"><span class="live-dot"></span><span id="map-count">Объекты на карте</span></span><button class="map-reset" id="map-reset" aria-label="Вернуть обзор района"><svg><use href="#i-pin"/></svg> Весь район</button><div class="map-fallback" id="map-fallback" hidden>Не удалось загрузить карту. Поиск и список объектов доступны ниже.</div></div>
+      <div class="map-shell" id="map-shell"><div id="map" role="region" aria-label="Карта недвижимости района Магнитогорска"></div><span class="map-pill"><span class="live-dot"></span><span id="map-count">Объекты на карте</span></span><button class="map-reset" id="map-reset" aria-label="Вернуть обзор района"><svg><use href="#i-pin"/></svg> Весь район</button><div class="map-fallback" id="map-fallback" hidden>Не удалось загрузить карту. Поиск и список объектов доступны ниже.</div></div>
     </section>
     <section class="search-section" aria-labelledby="search-title">
       <div class="search-header"><h2 id="search-title">Что вы ищете?</h2><div class="deal-tabs" role="group" aria-label="Тип сделки"><button type="button" class="selected" data-deal="sale" aria-pressed="true">Купить</button><button type="button" data-deal="rent" aria-pressed="false">Снять</button></div></div>
@@ -60,9 +60,8 @@
     </section>
     <section class="results-section" aria-labelledby="results-title">
       <div class="results-header"><div><h2 id="results-title">Предложения рядом <span id="results-count"></span></h2><p id="results-subtitle">Дома, участки и квартиры в одном месте</p></div><label class="sort"><span class="sr-only">Сортировка</span><select id="sort"><option value="new">Сначала новые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option></select></label></div>
-      <div class="prototype-note"><span>ПРОТОТИП</span> Объявления и фотографии приведены для примера.</div>
       <div class="cards" id="cards" aria-live="polite"></div>
-      <div class="empty-state" id="empty-state" hidden><svg><use href="#i-search"/></svg><h3>Пока ничего не нашлось</h3><p>Попробуйте другой населённый пункт или расширьте параметры поиска.</p><button class="secondary" id="empty-reset">Сбросить фильтры</button></div>
+      <div class="empty-state" id="empty-state" hidden><svg><use href="#i-search"/></svg><h3>Объявлений пока нет</h3><p>Скоро здесь появятся первые объявления.</p><button class="secondary" id="empty-reset">Сбросить фильтры</button></div>
     </section>
     <aside class="listing-invite"><div class="invite-icon"><svg><use href="#i-house"/></svg></div><div><h2>У вашего дома есть будущий хозяин</h2><p>Объявления от собственников и специалистов — рядом с вами.</p></div><button class="secondary" data-add>Разместить объявление <svg><use href="#i-arrow"/></svg></button></aside>
     <footer><span>рядом · Магнитогорск</span><span>Первая версия · обсуждаем общую структуру</span></footer>
